@@ -1,0 +1,7 @@
+"Gamemode"
+{
+	"base"		"base"
+	"title"		"Gun Gaym"
+	"maps"		"^gg_"
+	"menusystem"	"1"
+}
