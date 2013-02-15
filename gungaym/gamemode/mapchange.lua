@@ -18,6 +18,7 @@ function changemap()
 		
 		for k,v in pairs(player.GetAll()) do
 			--if not v:GetNWBool("voted") then
+				v:SetNWBool("voted",false)
 				net.Start("maplist")
 					net.WriteTable(maps)
 				net.Send(v)
@@ -69,6 +70,7 @@ net.Receive("maplist",cl_SendChoice)
 function sv_gotit()
 	choice = net.ReadString()
 	ply = net.ReadEntity()
+	if ply:GetNWBool("voted") then end
 	ply:SetNWBool("voted",true)
 	print(choice)
 	old = mapvote[choice]
@@ -98,5 +100,6 @@ function sv_mapvotefin()
 	end
 	print(a,b)
 	final = string.sub(b,1,-5)
-	RunConsoleCommand("changelevel",final)
+	PrintMessage( HUD_PRINTCENTER, "Next map is "..final.."." )
+	timer.Simple(5, function() RunConsoleCommand("changelevel",final) end)
 end

@@ -9,6 +9,7 @@ include("mapchange.lua" )
 include("cl_init.lua")
 include("player.lua")
 include("wepgen.lua")
+include("specialrounds.lua")
 include("rounds.lua")
 resource.AddFile("sound/gy/canttouch.wav")
 resource.AddFile("sound/gy/boomhead.wav")
@@ -96,15 +97,15 @@ end
 function ScaleDamage( ply, hitgroup, dmginfo )
  
 	// More damage if we're shot in the head
-	if ply:Crouching() then
-		dmginfo:ScaleDamage(.9)
-	end
-	 if ( hitgroup == HITGROUP_HEAD ) then
-		dmginfo:ScaleDamage( 1.3 )
-		if dmginfo:GetDamage()*1.3 > ply:Health() then
-			dmginfo:GetAttacker():EmitSound("gy/boomhead.wav", 290, 100)
+		if ply:Crouching() then
+			dmginfo:ScaleDamage(.9)
 		end
-	 end
+		if ( hitgroup == HITGROUP_HEAD ) then
+			dmginfo:ScaleDamage( 1.3 )
+			if dmginfo:GetDamage()*1.3 > ply:Health() then
+				dmginfo:GetAttacker():EmitSound("gy/boomhead.wav", 290, 100)
+			end
+		end
 end
  
 hook.Add("ScalePlayerDamage","ScaleDamage",ScaleDamage)
