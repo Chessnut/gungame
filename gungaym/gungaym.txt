@@ -1,7 +1,12 @@
-"Gamemode"
+"terrortown"
 {
 	"base"		"base"
-	"title"		"Gun Gaym"
+	"title"		"Gun Game"
 	"maps"		"^gg_"
 	"menusystem"	"1"
+
+	"settings"
+	{
+		// TODO: put some settings here
+	}
 }

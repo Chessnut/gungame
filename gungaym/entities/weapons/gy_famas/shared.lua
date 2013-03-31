@@ -12,13 +12,13 @@ if ( CLIENT ) then
 	SWEP.Author				= "Counter-Strike"
 	SWEP.Slot				= 1
 	SWEP.SlotPos			= 5
-	SWEP.IconLetter			= "c"
+	SWEP.IconLetter			= "t"
 	SWEP.ViewModelFlip		= false
-	killicon.AddFont( "weapon_famas", "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
+	killicon.AddFont( "gy_famas", "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 	
 end
 SWEP.Class				= "gy_famas"
-SWEP.HoldType			= "pistol"
+SWEP.HoldType			= "smg"
 SWEP.Base				= "weapon_cs_base"
 SWEP.Category			= "Counter-Strike"
 
@@ -34,11 +34,11 @@ SWEP.AutoSwitchFrom		= false
 
 SWEP.Primary.Sound			= Sound( "Weapon_famas.Single" )
 SWEP.Primary.Recoil			= 3
-SWEP.Primary.Damage			= 35
+SWEP.Primary.Damage			= 50
 SWEP.Primary.NumShots		= 1
 SWEP.Primary.Cone			= 0.02
 SWEP.Primary.ClipSize		= 30
-SWEP.Primary.Delay			= 0.3
+SWEP.Primary.Delay			= 0.5
 SWEP.Primary.DefaultClip	= 60
 SWEP.Primary.Automatic		= false
 SWEP.Primary.Ammo			= "smg1"
@@ -56,7 +56,7 @@ function SWEP:PrimaryAttack()
 	if ( !self:CanPrimaryAttack() ) then return end
 		self:Bang()
 		timer.Simple(.03, function() self:Bang() end)
-		timer.Simple(.07, function() self:Bang() end)
+		timer.Simple(.06, function() self:Bang() end)
 		self.Weapon:SetNextSecondaryFire( CurTime() + self.Primary.Delay )
 		self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
 

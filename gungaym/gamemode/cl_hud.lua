@@ -115,6 +115,15 @@ surface.CreateFont( "healthfont", {
 	} )
 end
 
+
+function GM:HUDPaint()
+
+	hook.Run( "HUDDrawTargetID" )
+	hook.Run( "HUDDrawPickupHistory" )
+	hook.Run( "DrawDeathNotice", 0.85, 0.04 )
+
+end
+
 function cl_randlist()
 	for k,v in pairs(weapons.GetList()) do
 		if v.Class ~= nil then
@@ -148,6 +157,10 @@ function cl_PrevNextWeps(level)
 end
 
 function DrawHUD()
+
+	hook.Run( "HUDDrawTargetID" )
+	hook.Run( "HUDDrawPickupHistory" )
+	hook.Run( "DrawDeathNotice", 0.85, 0.04 )
 	ply = LocalPlayer()
 	local round = GetGlobalInt("round")
 	health = ply:Health()

@@ -8,7 +8,7 @@ end
 
 if ( CLIENT ) then
 
-	SWEP.PrintName			= "You see nothing"			
+	SWEP.PrintName			= "trans"			
 	SWEP.Author				= "Counter-Strike"
 	SWEP.Slot				= 1
 	SWEP.SlotPos			= 5

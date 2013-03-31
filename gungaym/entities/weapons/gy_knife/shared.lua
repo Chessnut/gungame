@@ -8,6 +8,8 @@ if( CLIENT ) then
 	SWEP.SlotPos = 1;
 	SWEP.DrawAmmo = false;
 	SWEP.DrawCrosshair = false;
+	SWEP.IconLetter = "j"
+	killicon.AddFont( "gy_knife", "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 end
 SWEP.PrintName = "Knife"
 SWEP.Class = "gy_knife"

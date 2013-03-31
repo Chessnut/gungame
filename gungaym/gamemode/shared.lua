@@ -8,7 +8,7 @@ function GM:Initialize()
 	
 end
 
-team.SetUp(0, "Gaymers", Color(0,0,0,255))
+team.SetUp(0, "Gaymers", Color(0,0,0,255)) --hue
 cvars.AddChangeCallback( "gy_rounds", function( convar_name, oldValue, newValue )
 	SetGlobalInt("MaxRounds",newValue)
 	print(convar_name,oldValue,newValue)
@@ -18,6 +18,8 @@ Alright, this is about to get really messy
 The following is pretty much going to be all the stuff that happens on kill
 */
 function OnKill( victim, weapon, killer )
+	print(weapon:GetClass())
+
 	local prevlev = killer:GetNWInt("level") --Define the killer's level for convienence
 	local wep = weplist[prevlev]
 	victim.NextSpawnTime = CurTime() + 4
@@ -35,13 +37,14 @@ function OnKill( victim, weapon, killer )
 			print("TestDone")
 			RoundEnd(killer) --and we're still in round, finish the round
 		elseif prevlev <= count() then --Or if it's just a normal kill, give them a level and their guns
-			SendDeathMessage(victim,killer:GetActiveWeapon().Class,killer)
+			--SendDeathMessage(victim,killer:GetActiveWeapon().Class,killer)
 			if killer:GetActiveWeapon().Class == "gy_knife" then
 				demote(victim)
 			end
 			killer:SetNWInt("level",prevlev+1)
 			killer:SetNWInt("lifelevel",(killer:GetNWInt("lifelevel")+1))
-			killer:GiveWeapons()
+			timer.Simple(.01,function() killer:GiveWeapons() end)
+			--killer:GiveWeapons()
 		end
 		LevelMsg(killer,(prevlev+1),GetGlobalInt("RoundState")) 
 	end
@@ -49,8 +52,65 @@ function OnKill( victim, weapon, killer )
 	if killer:GetNWInt("lifelevel") == 3 then
 		KillStreak(killer)
 	end
+	
+	DeathTicker(victim, weapon, killer)
+	
 end
 hook.Add( "PlayerDeath", "playerDeathTest", OnKill )
+
+function DeathTicker( Victim, Inflictor, Attacker )
+	print(Inflictor:GetClass())
+	
+	if ( !IsValid( Inflictor ) && IsValid( Attacker ) ) then
+		Inflictor = Attacker
+	end
+
+	-- Convert the inflictor to the weapon that they're holding if we can.
+	-- This can be right or wrong with NPCs since combine can be holding a 
+	-- pistol but kill you by hitting you with their arm.
+	if ( Inflictor && Inflictor == Attacker && (Inflictor:IsPlayer() || Inflictor:IsNPC()) ) then
+	
+		Inflictor = Inflictor:GetActiveWeapon()
+		if ( !IsValid( Inflictor ) ) then Inflictor = Attacker end
+	
+	end
+	
+	if (Attacker == Victim) then
+	
+		umsg.Start( "PlayerKilledSelf" )
+			umsg.Entity( Victim )
+		umsg.End()
+		
+		MsgAll( Attacker:Nick() .. " suicided!\n" )
+		
+	return end
+
+	if ( Attacker:IsPlayer() ) then
+	
+		umsg.Start( "PlayerKilledByPlayer" )
+		
+			umsg.Entity( Victim )
+			umsg.String( Inflictor:GetClass() )
+			umsg.Entity( Attacker )
+		
+		umsg.End()
+		
+		MsgAll( Attacker:Nick() .. " killed " .. Victim:Nick() .. " using " .. Inflictor:GetClass() .. "\n" )
+		
+	return end
+	
+	umsg.Start( "PlayerKilled" )
+	
+		umsg.Entity( Victim )
+		umsg.String( Inflictor:GetClass() )
+		umsg.String( Attacker:GetClass() )
+
+	umsg.End()
+	
+	MsgAll( Victim:Nick() .. " was killed by " .. Attacker:GetClass() .. "\n" )
+	
+end
+--hook.Add( "PlayerDeath", "playerDeathTest", DeathTicker )
 
 
 function KillStreak(ply)

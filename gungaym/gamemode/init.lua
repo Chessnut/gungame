@@ -4,9 +4,13 @@ AddCSLuaFile( "cl_hud.lua" )
 AddCSLuaFile( "wepgen.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )
 AddCSLuaFile( "mapchange.lua" )
+AddCSLuaFile( "cl_deathnotices.lua" )
+AddCSLuaFile( "cl_hudpickup.lua" )
+--include( "cl_deathnotices" )
+include("shared.lua")
 include("entdel.lua")
 include("mapchange.lua" )
-include("cl_init.lua")
+--include("cl_init.lua")
 include("player.lua")
 include("wepgen.lua")
 include("specialrounds.lua")
@@ -16,6 +20,8 @@ resource.AddFile("sound/gy/boomhead.wav")
 resource.AddFile("sound/gy/best.wav")
 
 RandomizeWeapons()
+
+hook.Add("PlayerKilledByPlayer", function() print("yo") end)
 
 function GM:Initialize( )
 	SetGlobalInt("round",0)
@@ -95,15 +101,16 @@ function GM:PlayerDeath( Victim, Inflictor, Attacker )
 end	
 
 function ScaleDamage( ply, hitgroup, dmginfo )
- 
+
 	// More damage if we're shot in the head
 		if ply:Crouching() then
-			dmginfo:ScaleDamage(.9)
+			math.ceil(dmginfo:ScaleDamage( 0.9 ))
 		end
 		if ( hitgroup == HITGROUP_HEAD ) then
-			dmginfo:ScaleDamage( 1.3 )
-			if dmginfo:GetDamage()*1.3 > ply:Health() then
+			math.ceil(dmginfo:ScaleDamage( 1.3 ))
+			if math.ceil(dmginfo:GetDamage() * 1.3 ) > ply:Health() then
 				dmginfo:GetAttacker():EmitSound("gy/boomhead.wav", 290, 100)
+				 dmginfo:SetDamageForce(dmginfo:GetDamageForce()*100000)
 			end
 		end
 end

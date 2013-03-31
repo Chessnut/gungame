@@ -14,7 +14,7 @@ if ( CLIENT ) then
 	SWEP.SlotPos			= 5
 	SWEP.IconLetter			= "c"
 	
-	killicon.AddFont( "weapon_glock", "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
+	killicon.AddFont( "gy_glock", "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 	
 end
 SWEP.Class				= "gy_glock"
@@ -84,8 +84,13 @@ function SWEP:Bang()
 	self.Weapon:EmitSound( self.Primary.Sound )
 	
 	// Shoot the bullet
-	self:CSShootBullet( self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self.Primary.Cone )
+	local bIron = self.Weapon:GetNetworkedBool( "Ironsights" )
 	
+	if bIron then
+	self:CSShootBullet( self.Primary.Damage*2, self.Primary.Recoil, self.Primary.NumShots, self.Primary.Cone*.5 )
+	else
+	self:CSShootBullet( self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self.Primary.Cone )
+	end
 	// Remove 1 bullet from our clip
 	self:TakePrimaryAmmo( 1 )
 	

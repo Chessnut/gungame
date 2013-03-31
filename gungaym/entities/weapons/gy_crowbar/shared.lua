@@ -8,6 +8,7 @@ if( CLIENT ) then
 	SWEP.SlotPos = 1;
 	SWEP.DrawAmmo = false;
 	SWEP.DrawCrosshair = false;
+	killicon.AddFont( "gy_crowbar", 	"HL2MPTypeDeath", 	"6", 	Color( 255, 80, 0, 255 ))
 end
 SWEP.PrintName = "Crowbar"
 SWEP.Class = "gy_crowbar"

@@ -8,13 +8,13 @@ end
 
 if ( CLIENT ) then
 
-	SWEP.PrintName			= "FiveSeveN"			
+	SWEP.PrintName			= "Five-SeveN"			
 	SWEP.Author				= "Counter-Strike"
 	SWEP.Slot				= 1
 	SWEP.SlotPos			= 5
 	SWEP.IconLetter			= "u"
 	
-	killicon.AddFont( "weapon_fiveseven", "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
+	killicon.AddFont( "gy_57", "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 	
 end
 SWEP.Class				= "gy_57"

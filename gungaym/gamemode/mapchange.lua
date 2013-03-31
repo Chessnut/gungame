@@ -99,7 +99,11 @@ function sv_mapvotefin()
 		end
 	end
 	print(a,b)
-	final = string.sub(b,1,-5)
+	if b ~= nil then
+		final = string.sub(b,1,-5)
+	else
+		final = string.sub(table.Random(file.Find("maps/gg_*.bsp","MOD")),1,-5)
+	end
 	PrintMessage( HUD_PRINTCENTER, "Next map is "..final.."." )
 	timer.Simple(5, function() RunConsoleCommand("changelevel",final) end)
 end
